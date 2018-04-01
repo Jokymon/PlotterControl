@@ -21,6 +21,12 @@ public:
   void run_command(char* command_buffer);
 
 private:
+  void parse(char* command_buffer);
+  void execute();
+
+  void dump_limit_switches();
+
+private:
   LimitMinX limitMinX;
   LimitMaxX limitMaxX;
   LimitMinY limitMinY;
@@ -31,6 +37,19 @@ private:
 
   Axis<MotorX, LimitMinX, LimitMaxX> axisX;
   Axis<MotorY, LimitMinY, LimitMaxY> axisY;
+
+  struct CommandState {
+    char type;
+    int code;
+    double x;
+    double y;
+    double z;
+    double f;
+    double p;
+    double s;
+  };
+
+  CommandState command_state;
 };
 
 #endif
