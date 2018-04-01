@@ -1,4 +1,5 @@
 #include "enable_if.h"
+#include <Arduino.h>
 
 enum class LevelMode {
   Normal,
