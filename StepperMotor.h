@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 enum class Direction : uint8_t {
-  Forward=0,
-  Backward=1
+  Backward=0,
+  Forward=1
 };
 
 template <uint8_t StepPin, uint8_t DirPin, uint8_t EnablePin>

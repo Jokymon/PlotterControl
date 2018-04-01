@@ -1,19 +1,20 @@
 #include "LimitSwitch.h"
 #include "StepperMotor.h"
 
-LimitSwitch<12, LevelMode::Inverted> limitMinX;
-LimitSwitch<13, LevelMode::Inverted> limitMaxX;
+LimitSwitch<A2, LevelMode::Inverted> limitMinX;
+LimitSwitch<A3, LevelMode::Inverted> limitMaxX;
 
-LimitSwitch<A2, LevelMode::Inverted> limitMinY;
-LimitSwitch<A3, LevelMode::Inverted> limitMaxY;
+LimitSwitch<12, LevelMode::Inverted> limitMinY;
+LimitSwitch<13, LevelMode::Inverted> limitMaxY;
 
-StepperMotor<10, 11, 4> motor1;
-StepperMotor<9, 3, 7> motor2;
+StepperMotor<9, 3, 7> motorX;
+StepperMotor<10, 11, 4> motorY;
 
 void setup() {
   Serial.begin(115200);
-  motor1.enable();
-  motor2.enable();
+  Serial.println("Ready");
+  motorX.enable();
+  motorY.enable();
 }
 
 void loop() {
@@ -45,36 +46,36 @@ void loop() {
         Serial.println("MaxY is not hit");
       break;
     case 'j':
-      motor1.enable();
+      motorX.enable();
       for (int i=0; i<100; i++) {
-        motor1.step(Direction::Forward);
+        motorX.step(Direction::Backward);
         delay(1);
       }
-      motor1.disable();
+      motorX.disable();
       break;
     case 'k':
-      motor1.enable();
+      motorX.enable();
       for (int i=0; i<100; i++) {
-        motor1.step(Direction::Backward);
+        motorX.step(Direction::Forward);
         delay(1);
       }
-      motor1.disable();
+      motorX.disable();
       break;
     case 'a':
-      motor2.enable();
+      motorY.enable();
       for (int i=0; i<100; i++) {
-        motor2.step(Direction::Forward);
+        motorY.step(Direction::Backward);
         delay(1);
       }
-      motor2.disable();
+      motorY.disable();
       break;
     case 's':
-      motor2.enable();
+      motorY.enable();
       for (int i=0; i<100; i++) {
-        motor2.step(Direction::Backward);
+        motorY.step(Direction::Forward);
         delay(1);
       }
-      motor2.disable();
+      motorY.disable();
       break;
   }
 }
