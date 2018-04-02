@@ -1,11 +1,7 @@
 #include "GCodeParser.h"
 
-GCodeParser::GCodeParser() :
-  axisX{motorX, limitMinX, limitMaxX},
-  axisY{motorY, limitMinY, limitMaxY}
+GCodeParser::GCodeParser()
 {
-  motorX.enable();
-  motorY.enable();
 }
 
 void GCodeParser::run_command(char* command_buffer)
@@ -70,31 +66,19 @@ void GCodeParser::execute()
 {
   switch (command_state.type) {
     case '$':
-      dump_limit_switches();
+      system.dump_limit_switches();
       break;
     case 'G':
       switch (command_state.code) {
+        case 0:
+        case 1:
+          system.move_absolute(command_state.x, command_state.y, command_state.z);
+          break;
         case 28:
-          axisX.move_to_minimum();
-          axisY.move_to_minimum();
+          system.home();
           break;
       }
       break;
   }
-}
-
-void GCodeParser::dump_limit_switches()
-{
-    Serial.print("Limit switches: ");
-    if (limitMinX.isHit())
-      Serial.print("minX ");
-    if (limitMaxX.isHit())
-      Serial.print("maxX ");
-    if (limitMinY.isHit())
-      Serial.print("minY ");
-    if (limitMaxY.isHit())
-      Serial.print("maxY ");
-      
-    Serial.println("");
 }
 
