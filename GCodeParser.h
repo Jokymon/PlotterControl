@@ -28,6 +28,8 @@ private:
     float s;
   };
 
+  enum class Positioning { Absolute, Relative };
+  Positioning positioning;
   CommandState command_state;
 };
 

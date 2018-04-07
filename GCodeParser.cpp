@@ -1,6 +1,7 @@
 #include "GCodeParser.h"
 
-GCodeParser::GCodeParser()
+GCodeParser::GCodeParser() :
+  positioning(Positioning::Absolute)
 {
 }
 
@@ -76,6 +77,12 @@ void GCodeParser::execute()
           break;
         case 28:
           system.home();
+          break;
+        case 90:
+          positioning = Positioning::Absolute;
+          break;
+        case 91:
+          positioning = Positioning::Relative;
           break;
       }
       break;
