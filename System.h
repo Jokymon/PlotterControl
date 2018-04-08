@@ -3,6 +3,7 @@
 
 #include "LimitSwitch.h"
 #include "StepperMotor.h"
+#include "SimpleServo.h"
 #include "Axis.h"
 
 struct PointF {
@@ -24,6 +25,7 @@ class System
 public:
   System();
 
+  void init();
   void home();
   void move_absolute(long x, long y, long z);
   void dump_limit_switches();
@@ -40,6 +42,7 @@ private:
 
   MotorX motorX;
   MotorY motorY;
+  SimpleServo servoZ;
 
   Axis<MotorX, LimitMinX, LimitMaxX> axisX;
   Axis<MotorY, LimitMinY, LimitMaxY> axisY;

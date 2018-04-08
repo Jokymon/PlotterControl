@@ -3,37 +3,50 @@
 System::System() :
   axisX{motorX, limitMinX, limitMaxX},
   axisY{motorY, limitMinY, limitMaxY},
-  current_position_units{0.0, 0.0, 0.0}
+  current_position_units{0.0, 0.0, 90.0}
 {
   motorX.enable();
   motorY.enable();
+}
+
+void System::init()
+{
+  servoZ.attach(A1);
 }
 
 void System::home()
 {
   axisX.move_to_minimum();
   axisY.move_to_minimum();
+
   current_position_units.x = 0.0;
   current_position_units.y = 0.0;
-  current_position_units.z = 0.0;
+
+  current_position_units.z = 90.0;
+  servoZ.setPosition(current_position_units.z);
 }
 
 void System::move_absolute(long x, long y, long z)
 {
+  if (z<0)
+    z = 0;
+  if (z>180)
+    z = 180;
+
   PointF delta;
   delta.x = abs(x - current_position_units.x);
   delta.y = abs(y - current_position_units.y);
-  delta.z = abs(z - current_position_units.z);
 
   long max_delta = max(delta.x, delta.y);
-  max_delta = max(delta.z, max_delta);
 
   long x_counter = -max_delta/2;
   long y_counter = -max_delta/2;
-  long z_counter = -max_delta/2;
 
   Direction direction_x = (x >= current_position_units.x) ? Direction::Forward : Direction::Backward;
   Direction direction_y = (y >= current_position_units.y) ? Direction::Forward : Direction::Backward;
+
+  servoZ.setPosition(z);
+  current_position.z = z;
 
   bool can_step_x_now;
   bool can_step_y_now;

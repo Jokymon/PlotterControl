@@ -8,6 +8,7 @@ class GCodeParser
 public:
   GCodeParser();
 
+  void init();
   void run_command(char* command_buffer);
 
 private:

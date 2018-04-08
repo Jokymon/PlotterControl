@@ -16,6 +16,8 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Ready");
 
+  gcode_parser.init();
+  
   clear_command_buffer();
 }
 

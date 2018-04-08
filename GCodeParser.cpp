@@ -5,6 +5,11 @@ GCodeParser::GCodeParser() :
 {
 }
 
+void GCodeParser::init()
+{
+  system.init();
+}
+
 void GCodeParser::run_command(char* command_buffer)
 {
   parse(command_buffer);
