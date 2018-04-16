@@ -1,7 +1,11 @@
 #include "GCodeParser.h"
 
+const PointF StepsPerMM = {21.8, 22.85, 1.0};
+const PointF StepsPerInch = {48.0, 48.0, 1.0};
+
 GCodeParser::GCodeParser() :
-  positioning(Positioning::Absolute)
+  positioning(Positioning::Absolute),
+  steps_per_unit(StepsPerMM)
 {
 }
 
@@ -38,6 +42,12 @@ void GCodeParser::parse(char* command_buffer)
           break;
         case 'F':
           command_state.f = value;
+          break;
+        case 'I':
+          command_state.i = value;
+          break;
+        case 'J':
+          command_state.j = value;
           break;
         case 'P':
           command_state.p = value;
@@ -78,7 +88,29 @@ void GCodeParser::execute()
       switch (command_state.code) {
         case 0:
         case 1:
-          system.move_absolute(command_state.x, command_state.y, command_state.z);
+          system.move_absolute(command_state.x * steps_per_unit.x,
+                               command_state.y * steps_per_unit.y,
+                               command_state.z * steps_per_unit.z);
+          break;
+        case 2:
+          system.arc_around_relative_to(command_state.i * steps_per_unit.x,
+                                        command_state.j * steps_per_unit.y,
+                                        command_state.x * steps_per_unit.x,
+                                        command_state.y * steps_per_unit.y,
+                                        System::Clockwise);
+          break;
+        case 3:
+          system.arc_around_relative_to(command_state.i * steps_per_unit.x,
+                                        command_state.j * steps_per_unit.y,
+                                        command_state.x * steps_per_unit.x,
+                                        command_state.y * steps_per_unit.y,
+                                        System::CounterClockwise);
+          break;
+        case 20:
+          steps_per_unit = StepsPerInch;
+          break;
+        case 21:
+          steps_per_unit = StepsPerMM;
           break;
         case 28:
           system.home();

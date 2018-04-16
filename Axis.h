@@ -1,6 +1,8 @@
 #ifndef AXIS_H
 #define AXIS_H
 
+#include "StepperMotor.h"
+
 template <typename Motor, typename LimitMin, typename LimitMax>
 class Axis
 {

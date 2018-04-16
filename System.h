@@ -1,16 +1,11 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include "LimitSwitch.h"
+#include "Axis.h"
 #include "StepperMotor.h"
 #include "SimpleServo.h"
-#include "Axis.h"
-
-struct PointF {
-  float x;
-  float y;
-  float z;
-};
+#include "LimitSwitch.h"
+#include "Point.h"
 
 typedef LimitSwitch<A2, LevelMode::Inverted> LimitMinX;
 typedef LimitSwitch<A3, LevelMode::Inverted> LimitMaxX;
@@ -23,11 +18,14 @@ typedef StepperMotor<10, 11, 4> MotorY;
 class System
 {
 public:
+  enum Orientation { Clockwise, CounterClockwise };
+
   System();
 
   void init();
   void home();
   void move_absolute(long x, long y, long z);
+  void arc_around_relative_to(float c_dx, float c_dy, float to_x, float to_y, Orientation orientation);
   void dump_limit_switches();
 
 private:
@@ -47,7 +45,7 @@ private:
   Axis<MotorX, LimitMinX, LimitMaxX> axisX;
   Axis<MotorY, LimitMinY, LimitMaxY> axisY;
 
-  PointF current_position_units;
+  PointF current_position;
 };
 
 #endif

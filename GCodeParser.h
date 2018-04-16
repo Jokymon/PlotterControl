@@ -25,12 +25,15 @@ private:
     float y;
     float z;
     float f;
+    float i;
+    float j;
     float p;
     float s;
   };
 
   enum class Positioning { Absolute, Relative };
   Positioning positioning;
+  PointF steps_per_unit;
   CommandState command_state;
 };
 
