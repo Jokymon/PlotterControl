@@ -16,6 +16,18 @@ void GCodeParser::init()
 
 void GCodeParser::run_command(char* command_buffer)
 {
+  if (positioning==Positioning::Absolute) {
+    command_state.x = system.get_x() / steps_per_unit.x;
+    command_state.y = system.get_y() / steps_per_unit.y;
+    command_state.z = system.get_z() / steps_per_unit.z;
+  } else {
+    command_state.x = 0.0;
+    command_state.y = 0.0;
+    command_state.z = 0.0;
+  }
+  command_state.i = 0.0;
+  command_state.j = 0.0;
+
   parse(command_buffer);
   execute();
 }
