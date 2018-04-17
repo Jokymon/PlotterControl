@@ -133,6 +133,28 @@ void System::dump_limit_switches()
     Serial.println("");
 }
 
+void System::set_position(float x, float y, float z)
+{
+  current_position.x = x;
+  current_position.y = y;
+  current_position.z = z;
+}
+
+float System::get_x() const
+{
+  return current_position.x;
+}
+
+float System::get_y() const
+{
+  return current_position.y;
+}
+
+float System::get_z() const
+{
+  return current_position.z;
+}
+
 bool System::can_step_x(long target_x, Direction direction)
 {
   if (target_x==long(current_position.x))

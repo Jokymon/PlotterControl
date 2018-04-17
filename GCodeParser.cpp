@@ -118,6 +118,9 @@ void GCodeParser::execute()
                                         command_state.y * steps_per_unit.y,
                                         System::CounterClockwise);
           break;
+        case 4:
+          delay((int)command_state.p);
+          break;
         case 20:
           steps_per_unit = StepsPerInch;
           break;
@@ -132,6 +135,9 @@ void GCodeParser::execute()
           break;
         case 91:
           positioning = Positioning::Relative;
+          break;
+        case 92:
+          system.set_position(command_state.x, command_state.y, command_state.z);
           break;
       }
       break;

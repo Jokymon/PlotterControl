@@ -28,6 +28,11 @@ public:
   void arc_around_relative_to(float c_dx, float c_dy, float to_x, float to_y, Orientation orientation);
   void dump_limit_switches();
 
+  void set_position(float x, float y, float z);
+  float get_x() const;
+  float get_y() const;
+  float get_z() const;
+
 private:
   bool can_step_x(long target_x, Direction direction);
   bool can_step_y(long target_y, Direction direction);
